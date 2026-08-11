@@ -1,0 +1,28 @@
+{
+  "name": "workers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "worker.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bullmq": "^6.0.8",
+    "dotenv": "^17.4.2",
+    "ioredis": "^5.11.1",
+    "mongoose": "^9.8.0",
+    "pg": "^8.22.0",
+    "razorpay": "^2.9.8",
+    "sequelize": "^6.37.8"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "sequelize-cli": "^6.6.5"
+  }
+}

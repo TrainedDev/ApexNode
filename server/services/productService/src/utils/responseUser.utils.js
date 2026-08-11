@@ -1,0 +1,3 @@
+export const responseUser = (res, statusCode, data) => {
+  res.status(statusCode).json(data);
+};

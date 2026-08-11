@@ -1,0 +1,9 @@
+# Blocks node_modules inside client, api gateway, and all microservices
+**/node_modules/
+
+# Blocks environment variables everywhere
+**/.env
+
+# Blocks build/dist outputs everywhere
+**/dist/
+**/build/
