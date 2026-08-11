@@ -1,26 +1,37 @@
+import express from "express";
 import redisClient from "./config/redis.config.js";
 import "./processors/worker.js";
 import { connectDb } from "./config/mongoDb.config.js";
 import db from "./models/index.cjs";
 
 const { sequelize } = db;
-console.log("checking am i running");
+
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+// Minimal health check for Render
+app.get("/health", (req, res) => {
+  res.status(200).json({
+    status: "ok",
+    service: "worker",
+  });
+});
+
+app.listen(PORT, () => {
+  console.log(`[Worker] Health server running on port ${PORT}`);
+});
 
 const startWorker = async () => {
   try {
-    // connect supabase
-    sequelize
-      .authenticate()
-      .then(() =>
-        console.log("[Worker] successfully connected to supabase database"),
-      )
-      .catch((err) => console.log(`[Worker] failed to connect supabase database: ${err}`));
+    // Connect Supabase/PostgreSQL
+    await sequelize.authenticate();
+    console.log("[Worker] successfully connected to supabase database");
 
-    // connect mongodb
-    connectDb();
-    console.log("[Worker]successfully connected mongoDb database");
+    // Connect MongoDB
+    await connectDb();
+    console.log("[Worker] successfully connected mongoDb database");
 
-    // connect redis
+    // Redis events
     redisClient.on("connect", () => {
       console.log("[Worker] Connected to Redis");
     });
@@ -39,7 +50,7 @@ const startWorker = async () => {
 
     console.log("[Worker] Worker is running and ready to process jobs");
   } catch (error) {
-    console.error("[Error] Failed to Initialized worker", error);
+    console.error("[Error] Failed to Initialize worker", error);
     process.exit(1);
   }
 };
