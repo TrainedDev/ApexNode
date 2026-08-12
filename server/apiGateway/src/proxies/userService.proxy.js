@@ -54,9 +54,9 @@ export const userProxy = createProxyMiddleware({
                   await destroyGatewaySession(req, res);
                 }
         }
-          
+         const { userId, ...responseData } = data;
 
-           return JSON.stringify(data);
+           return JSON.stringify(responseData);
         } catch (error) {
           console.error("Proxy JSON Parse Error:", error);
              if (req.originalUrl.includes('/logout')) {
