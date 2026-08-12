@@ -10,6 +10,12 @@ const app = express();
 connectDb(process.env.MONGO_URI);
 
 app.use(express.json());
+
+app.get("/", (req, res) => res.send("product server is live"));
+
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
 app.use("/api/v1/inventory", productRoute);
 app.use(errorHandler);
 

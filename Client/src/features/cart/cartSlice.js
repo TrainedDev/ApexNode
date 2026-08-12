@@ -17,9 +17,11 @@ export const createCart = createAsyncThunk(
       const response = await createCartService(id);
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue(
-        error.response?.data ?? { msg: "something went wrong" },
-      );
+      const errors = {
+        message: error?.response?.data?.message || "something went wrong",
+        status: error?.response?.data?.status || 500,
+      };
+      return thunkApi.rejectWithValue(errors);
     }
   },
 );
@@ -31,9 +33,11 @@ export const fetchCart = createAsyncThunk(
       const response = await fetchCartService();
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue(
-        error.response?.data ?? { msg: "something went wrong" },
-      );
+      const errors = {
+        message: error?.response?.data?.message || "something went wrong",
+        status: error?.response?.data?.status || 500,
+      };
+      return thunkApi.rejectWithValue(errors);
     }
   },
 );
@@ -45,9 +49,11 @@ export const clearCart = createAsyncThunk(
       const response = await clearCartService(id);
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue(
-        error.response?.data ?? { msg: "something went wrong" },
-      );
+      const errors = {
+        message: error?.response?.data?.message || "something went wrong",
+        status: error?.response?.data?.status || 500,
+      };
+      return thunkApi.rejectWithValue(errors);
     }
   },
 );
@@ -59,9 +65,11 @@ export const removeProductFromCart = createAsyncThunk(
       const response = await deleteProductFromCartService(id);
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue(
-        error.response?.data ?? { msg: "something went wrong" },
-      );
+      const errors = {
+        message: error?.response?.data?.message || "something went wrong",
+        status: error?.response?.data?.status || 500,
+      };
+      return thunkApi.rejectWithValue(errors);
     }
   },
 );
@@ -76,9 +84,11 @@ export const updateCart = createAsyncThunk(
     } catch (error) {
       console.log(error);
 
-      return thunkApi.rejectWithValue(
-        error.response?.data ?? { msg: "something went wrong" },
-      );
+      const errors = {
+        message: error?.response?.data?.message || "something went wrong",
+        status: error?.response?.data?.status || 500,
+      };
+      return thunkApi.rejectWithValue(errors);
     }
   },
 );
@@ -146,7 +156,7 @@ const cartSlice = createSlice({
       })
       .addCase(fetchCart.rejected, (state, action) => {
         console.log(action.payload);
-        
+
         state.fetchCart.loading = false;
         state.fetchCart.error = action.payload;
       })

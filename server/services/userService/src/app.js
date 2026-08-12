@@ -12,6 +12,13 @@ const { sequelize } = db;
 
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("user server is live");
+});
+
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
 app.use("/api/v1/user", userRoutes);
 app.use(errorHandler);
 

@@ -10,11 +10,11 @@ export const login = createAsyncThunk("users/login", async (data, thunkAPI) => {
   try {
     return await loginService(data);
   } catch (error) {
-    return thunkAPI.rejectWithValue(
-      error.response.data ?? {
-        msg: "something went wrong",
-      },
-    );
+    const errors = {
+      message: error?.response?.data?.message || "something went wrong",
+      status: error?.response?.data?.status || 500,
+    };
+    return thunkAPI.rejectWithValue(errors);
   }
 });
 export const userAuthStatus = createAsyncThunk(
@@ -23,11 +23,11 @@ export const userAuthStatus = createAsyncThunk(
     try {
       return await userAuthStatusService();
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response.data ?? {
-          msg: "something went wrong",
-        },
-      );
+      const errors = {
+        message: error?.response?.data?.message || "something went wrong",
+        status: error?.response?.data?.status || 500,
+      };
+      return thunkAPI.rejectWithValue(errors);
     }
   },
 );
@@ -37,27 +37,27 @@ export const userRegister = createAsyncThunk(
     try {
       return await registerService(data);
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response.data ?? {
-          msg: "something went wrong",
-        },
-      );
+      const errors = {
+        message: error?.response?.data?.message || "something went wrong",
+        status: error?.response?.data?.status || 500,
+      };
+      return thunkAPI.rejectWithValue(errors);
     }
   },
 );
 
 export const userLogout = createAsyncThunk(
-    "users/userLogout",
+  "users/userLogout",
   async (_, thunkAPI) => {
     try {
-      const response =  await logoutService();
-      return response.data
+      const response = await logoutService();
+      return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(
-        error.response.data ?? {
-          msg: "something went wrong",
-        },
-      );
+      const errors = {
+        message: error?.response?.data?.message || "something went wrong",
+        status: error?.response?.data?.status || 500,
+      };
+      return thunkAPI.rejectWithValue(errors);
     }
   },
 );
@@ -71,7 +71,7 @@ const authSlice = createSlice({
       loading: false,
       error: null,
     },
- 
+
     user: {
       data: null,
       loading: false,
@@ -142,8 +142,7 @@ const authSlice = createSlice({
         state.auth.data = null;
         state.auth.loading = false;
         state.auth.error = action.payload;
-      })
-     
+      });
   },
 });
 

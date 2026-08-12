@@ -13,7 +13,7 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", process.env.CLIENT_URL], // Your Vite app URL
+    origin: ["http://localhost:5173", process.env.CLIENT_URL],
     credentials: true,
   }),
 );
@@ -24,6 +24,9 @@ app.use(userSession);
 app.use(rateLimiter);
 app.use(servicesProxy);
 
-app.get("/", (req, res) => res.send("APIGATEWAY is live"));
+app.get("/", (req, res) => res.send("apigatway is live"));
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
 
-app.listen(PORT, console.log("Api gateway is running on port:", PORT));
+app.listen(PORT, "0.0.0.0", console.log("Api gateway is running on port:", PORT));

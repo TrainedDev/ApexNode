@@ -15,11 +15,11 @@ export const addProduct = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue(
-        error.response?.data ?? {
-          msg: "something went wrong",
-        },
-      );
+         const errors = {
+      message: error?.response?.data?.message || "something went wrong",
+      status: error?.response?.data?.status || 500,
+    };
+    return thunkApi.rejectWithValue(errors);
     }
   },
 );
@@ -32,11 +32,11 @@ export const fetchProduct = createAsyncThunk(
       return response.data;
     } catch (error) {
       console.log(error);
-      return thunkApi.rejectWithValue(
-        error.response?.data ?? {
-          msg: "something went wrong",
-        },
-      );
+         const errors = {
+      message: error?.response?.data?.message || "something went wrong",
+      status: error?.response?.data?.status || 500,
+    };
+    return thunkApi.rejectWithValue(errors);
     }
   },
 );
@@ -48,11 +48,11 @@ export const fetchProducts = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue(
-        error.response?.data ?? {
-          msg: "something went wrong",
-        },
-      );
+         const errors = {
+      message: error?.response?.data?.message || "something went wrong",
+      status: error?.response?.data?.status || 500,
+    };
+    return thunkApi.rejectWithValue(errors);
     }
   },
 );
@@ -64,11 +64,11 @@ export const updateProduct = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue(
-        error.response?.data ?? {
-          msg: "something went wrong",
-        },
-      );
+         const errors = {
+      message: error?.response?.data?.message || "something went wrong",
+      status: error?.response?.data?.status || 500,
+    };
+    return thunkApi.rejectWithValue(errors);
     }
   },
 );
@@ -79,11 +79,11 @@ export const deleteProduct = createAsyncThunk(
       const response = await deleteProductService(id);
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue(
-        error.response?.data ?? {
-          msg: "something went wrong",
-        },
-      );
+         const errors = {
+      message: error?.response?.data?.message || "something went wrong",
+      status: error?.response?.data?.status || 500,
+    };
+    return thunkApi.rejectWithValue(errors);
     }
   },
 );
@@ -94,11 +94,11 @@ export const cartProducts = createAsyncThunk(
       const response = await cartProductService(data);
       return response.data;
     } catch (error) {
-      return thunkApi.rejectWithValue(
-        error.response?.data ?? {
-          msg: "something went wrong",
-        },
-      );
+         const errors = {
+      message: error?.response?.data?.message || "something went wrong",
+      status: error?.response?.data?.status || 500,
+    };
+    return thunkApi.rejectWithValue(errors);
     }
   },
 );

@@ -4,8 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCart, removeProductFromCart, updateCart } from "../cartSlice";
 import { cartProducts } from "../../products/productSlice";
 import { Link } from "react-router-dom";
-import { createOrder } from "../../order/orderSlice";
-import { addMultipleProducts } from "../../checkout/checkoutSlice";
 
 /* ------------------------------------------------------------- */
 /* Helpers                                                       */
@@ -39,8 +37,7 @@ export default function Cart() {
   const dispatch = useDispatch();
 
   const {
-    fetchCart: { error, data, loading },
-    updateCart: { error: updateCartError, data: updateCartData },
+    fetchCart: { error, loading },
   } = useSelector((state) => state.cart);
 
   // Product information fetched from product service

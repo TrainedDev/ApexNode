@@ -5,6 +5,6 @@ config();
 
 const PORT = process.env.PORT || 5003;
 
-app.listen(PORT, () => {
-  console.log(`ORDER SERVICE is running on port ${PORT}`);
+app.listen(PORT,"0.0.0.0" () => {
+  console.log(`Order Server is running on port ${PORT}`);
 });

@@ -10,12 +10,12 @@ export const createOrder = createAsyncThunk(
     } catch (error) {
       // console.log(error.message, error.response, error.msg);
       
-      const err = {
-        message: error.response?.data?.error,
-        status: error.response?.status,
-      };
-      return thunkApi.rejectWithValue(err);
-    }
+      const errors = {
+      message: error?.response?.data?.message || "something went wrong",
+      status: error?.response?.data?.status || 500,
+    };
+    return thunkApi.rejectWithValue(errors);
+  }
   },
 );
 
@@ -27,12 +27,12 @@ export const fetchOrder = createAsyncThunk(
       
       return response.data;
     } catch (error) {
-      const err = {
-        message: error.response?.data?.message,
-        status: error.response?.data?.status,
-      };
-      return thunkApi.rejectWithValue(err);
-    }
+    const errors = {
+      message: error?.response?.data?.message || "something went wrong",
+      status: error?.response?.data?.status || 500,
+    };
+    return thunkApi.rejectWithValue(errors);
+  }
   },
 );
 

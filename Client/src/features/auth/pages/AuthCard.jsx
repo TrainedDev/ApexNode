@@ -18,9 +18,6 @@ export default function AuthCard() {
     setPhase("leaving");
   };
 
-  // Sequence: fade+scale+slide the old content out, swap it, then animate the
-  // new content in from the opposite side. Kept in plain CSS transitions so
-  // no animation library is required.
   useEffect(() => {
     if (phase === "leaving") {
       const timer = setTimeout(() => {
@@ -37,8 +34,7 @@ export default function AuthCard() {
     }
   }, [phase]);
 
-  // Explicit literal class strings (not template-built) so Tailwind's JIT
-  // scanner can actually detect and generate them.
+
   const getTransformClasses = () => {
     if (phase === "leaving") {
       return direction === 1

@@ -9,5 +9,5 @@ export const errorHandler = (err, req, res, next) => {
   
   res
     .status(err.status || 500)
-    .json({ error: err.message || "something went wrong" });
+    .json({ message: err.message || "Something Went Wrong" });
 };

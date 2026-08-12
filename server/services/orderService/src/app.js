@@ -8,15 +8,15 @@ import { errorHandler } from "./utils/handler.utils.js";
 const app = express();
 const { sequelize } = db;
 
-app.use((req, res, next) => {
-  console.log("Request received at order service:", req.method, req.url);
-  next();
-});
+app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("Order service is running");
+  res.send("order server is live");
 });
-app.use(express.json());
+
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
 
 app.use("/api/v1/checkout", cartRoute);
 app.use("/api/v1/checkout", orderRoute);
