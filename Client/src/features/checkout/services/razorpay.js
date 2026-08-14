@@ -55,7 +55,7 @@ export const handlePayment = async (
     currency,
     name, //your business name
     description,
-    // image,
+    image: "https://apexnode-client.onrender.com/apex_node.png",
     order_id: razorpayOrderId, // This is a sample Order ID. Pass the `id` obtained in the response of
     handler: async function (response) {
       const data = {
