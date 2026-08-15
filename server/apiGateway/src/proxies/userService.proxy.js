@@ -3,6 +3,7 @@ import {
   responseInterceptor,
 } from "http-proxy-middleware";
 import { config } from "dotenv";
+import { wakeUpService } from "../middleware/serviceWakeUp.middleware.js";
 
 config();
 
@@ -18,8 +19,13 @@ async function destroyGatewaySession(req, res) {
   res.clearCookie("session-id", { path: "/" });
 }
 
+
+const userServiceUrl = process.env.ORDER_SERVICE;
+
+export const userServiceWake = wakeUpService("userService", `${userServiceUrl}/health`);
+
 export const userProxy = createProxyMiddleware({
-  target: process.env.USER_SERVICE,
+  target: userServiceUrl,
   changeOrigin: true,
   selfHandleResponse: true,
   proxyTimeout: 70000,
