@@ -5,20 +5,25 @@ config();
 export const paymentProxy = createProxyMiddleware({
   target: process.env.PAYMENT_SERVICE,
   changeOrigin: true,
-    pathRewrite: (path, req) => {
+  proxyTimeout: 70000,
+  timeout: 70000,
+  pathRewrite: (path, req) => {
     return req.originalUrl;
   },
   on: {
     proxyReq: (proxyReq, req, res) => {
-      if (req.session?.user) {
+      if (req.session?.userId) {
         proxyReq.setHeader("x-user-id", req.session.userId);
       }
     },
     error: (err, req, res, target) => {
-      console.error(`failed to reach target service ${target}`, err);
+      console.error(`Failed to reach product service ${target}:`, err.message);
 
-      res.writeHead(502, { "content-type": "application/json" });
-      res.end({ error: `${err}` });
+      if (!res.headersSent) {
+        res.status(503).json({
+          message: "Product service is waking up. Please try again shortly.",
+        });
+      }
     },
   },
 });

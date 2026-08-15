@@ -3,6 +3,7 @@ import axios from "axios";
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
+  timeout: 75000,
 });
 
 const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
@@ -27,7 +28,7 @@ axiosInstance.interceptors.response.use(
 
     config._retryCount = config._retryCount || 0;
 
-    if (config._retryCount >= 3) {
+    if (config._retryCount >= 2) {
       window.dispatchEvent(new CustomEvent("server-wakeup-failed"));
       throw err;
     }

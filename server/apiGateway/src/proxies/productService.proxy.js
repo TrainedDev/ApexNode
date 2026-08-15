@@ -5,8 +5,10 @@ config();
 
 export const productProxy = createProxyMiddleware({
   target: process.env.PRODUCT_SERVICE,
+  proxyTimeout: 70000,
+  timeout: 70000,
   changeOrigin: true,
-    pathRewrite: (path, req) => {
+  pathRewrite: (path, req) => {
     return req.originalUrl;
   },
   on: {
@@ -16,9 +18,13 @@ export const productProxy = createProxyMiddleware({
       }
     },
     error: (err, req, res, target) => {
-      console.error(`failed to reach target ${target} service`, err);
-      res.writeHead(502, { "content-type": "application/json" });
-      res.end(JSON.stringify({ error: err }));
+      console.error(`Failed to reach product service ${target}:`, err.message);
+
+      if (!res.headersSent) {
+        res.status(503).json({
+          message: "Product service is waking up. Please try again shortly.",
+        });
+      }
     },
   },
 });
