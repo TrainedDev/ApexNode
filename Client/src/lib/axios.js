@@ -22,7 +22,7 @@ axiosInstance.interceptors.response.use(
     const shouldRetry =
       err.response?.status === 503 ||
       err.response?.status === 502 ||
-      !err.response;
+      err.response?.status === 504;
 
     if (!shouldRetry) throw err;
 
