@@ -4,7 +4,7 @@ const sleep = (delay) => new Promise((resolve) => setTimeout(resolve, delay));
 
 const serviceState = new Map();
 
-const RETRY_DELAYS = [3000, 7000, 15000];
+const RETRY_DELAYS = [5000, 10000, 15000, 20000];
 
 export const wakeUpService = (serviceName, serviceUrl) => {
   return async (req, res, next) => {
@@ -23,7 +23,7 @@ export const wakeUpService = (serviceName, serviceUrl) => {
     // First health check
     try {
       const response = await axios.get(serviceUrl, {
-        timeout: 5000,
+        timeout: 15000,
       });
 
       if (response.status >= 200 && response.status < 300) {
