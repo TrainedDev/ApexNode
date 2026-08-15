@@ -5,14 +5,16 @@ export const verifyPayment = createAsyncThunk(
   "checkout/verifyPayment",
   async (data, thunkApi) => {
     try {
-      
       const response = await verifyPaymentService(data);
       console.log(response);
       return response.data;
     } catch (error) {
       const err = {
-        message: error.response?.data?.message,
-        status: error.response?.data?.status,
+        message:
+          error?.response?.data?.message ||
+          error?.message ||
+          "something went wrong",
+        status: error?.response?.data?.status || error?.status || 500,
       };
       return thunkApi.rejectWithValue(err);
     }
@@ -27,8 +29,11 @@ export const razorpayWebHook = createAsyncThunk(
       return response.data;
     } catch (error) {
       const err = {
-        message: error.response?.data?.message,
-        status: error.response?.data?.status,
+        message:
+          error?.response?.data?.message ||
+          error?.message ||
+          "something went wrong",
+        status: error?.response?.data?.status || error?.status || 500,
       };
       return thunkApi.rejectWithValue(err);
     }

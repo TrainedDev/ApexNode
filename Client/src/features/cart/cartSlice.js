@@ -18,8 +18,8 @@ export const createCart = createAsyncThunk(
       return response.data;
     } catch (error) {
       const errors = {
-        message: error?.response?.data?.message || "something went wrong",
-        status: error?.response?.data?.status || 500,
+         message: error?.response?.data?.message || error?.message || "something went wrong",
+        status: error?.response?.data?.status || error?.status || 500,
       };
       return thunkApi.rejectWithValue(errors);
     }
@@ -34,8 +34,8 @@ export const fetchCart = createAsyncThunk(
       return response.data;
     } catch (error) {
       const errors = {
-        message: error?.response?.data?.message || "something went wrong",
-        status: error?.response?.data?.status || 500,
+         message: error?.response?.data?.message || error?.message || "something went wrong",
+        status: error?.response?.data?.status || error?.status || 500,
       };
       return thunkApi.rejectWithValue(errors);
     }
@@ -50,8 +50,8 @@ export const clearCart = createAsyncThunk(
       return response.data;
     } catch (error) {
       const errors = {
-        message: error?.response?.data?.message || "something went wrong",
-        status: error?.response?.data?.status || 500,
+         message: error?.response?.data?.message || error?.message || "something went wrong",
+        status: error?.response?.data?.status || error?.status || 500,
       };
       return thunkApi.rejectWithValue(errors);
     }
@@ -66,8 +66,8 @@ export const removeProductFromCart = createAsyncThunk(
       return response.data;
     } catch (error) {
       const errors = {
-        message: error?.response?.data?.message || "something went wrong",
-        status: error?.response?.data?.status || 500,
+         message: error?.response?.data?.message || error?.message || "something went wrong",
+        status: error?.response?.data?.status || error?.status || 500,
       };
       return thunkApi.rejectWithValue(errors);
     }
@@ -85,8 +85,8 @@ export const updateCart = createAsyncThunk(
       console.log(error);
 
       const errors = {
-        message: error?.response?.data?.message || "something went wrong",
-        status: error?.response?.data?.status || 500,
+         message: error?.response?.data?.message || error?.message || "something went wrong",
+        status: error?.response?.data?.status || error?.status || 500,
       };
       return thunkApi.rejectWithValue(errors);
     }

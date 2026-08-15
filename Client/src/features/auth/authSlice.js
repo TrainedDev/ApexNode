@@ -11,8 +11,11 @@ export const login = createAsyncThunk("users/login", async (data, thunkAPI) => {
     return await loginService(data);
   } catch (error) {
     const errors = {
-      message: error?.response?.data?.message || "something went wrong",
-      status: error?.response?.data?.status || 500,
+      message:
+        error?.response?.data?.message ||
+        error?.message ||
+        "something went wrong",
+      status: error?.response?.data?.status || error?.status || 500,
     };
     return thunkAPI.rejectWithValue(errors);
   }
@@ -24,8 +27,11 @@ export const userAuthStatus = createAsyncThunk(
       return await userAuthStatusService();
     } catch (error) {
       const errors = {
-        message: error?.response?.data?.message || "something went wrong",
-        status: error?.response?.data?.status || 500,
+        message:
+          error?.response?.data?.message ||
+          error?.message ||
+          "something went wrong",
+        status: error?.response?.data?.status || error?.status || 500,
       };
       return thunkAPI.rejectWithValue(errors);
     }
@@ -38,8 +44,11 @@ export const userRegister = createAsyncThunk(
       return await registerService(data);
     } catch (error) {
       const errors = {
-        message: error?.response?.data?.message || "something went wrong",
-        status: error?.response?.data?.status || 500,
+        message:
+          error?.response?.data?.message ||
+          error?.message ||
+          "something went wrong",
+        status: error?.response?.data?.status || error?.status || 500,
       };
       return thunkAPI.rejectWithValue(errors);
     }
@@ -54,8 +63,11 @@ export const userLogout = createAsyncThunk(
       return response.data;
     } catch (error) {
       const errors = {
-        message: error?.response?.data?.message || "something went wrong",
-        status: error?.response?.data?.status || 500,
+        message:
+          error?.response?.data?.message ||
+          error?.message ||
+          "something went wrong",
+        status: error?.response?.data?.status || error?.status || 500,
       };
       return thunkAPI.rejectWithValue(errors);
     }

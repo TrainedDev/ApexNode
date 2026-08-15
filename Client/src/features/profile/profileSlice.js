@@ -12,8 +12,8 @@ export const createProfile = createAsyncThunk(
       return await createProfileService(data);
     } catch (error) {     
         const errors = {
-        message: error?.response?.data?.message || "something went wrong",
-        status: error?.response?.data?.status || 500,
+          message: error?.response?.data?.message || error?.message || "something went wrong",
+        status: error?.response?.data?.status || error?.status || 500,
       } 
       return thunkAPI.rejectWithValue(errors);
     }
@@ -27,8 +27,8 @@ export const fetchProfile = createAsyncThunk(
       return await getProfileService();
     } catch (error) {
       const errors = {
-        message: error?.response?.data?.message || "something went wrong",
-        status: error?.response?.data?.status || 500,
+          message: error?.response?.data?.message || error?.message || "something went wrong",
+        status: error?.response?.data?.status || error?.status || 500,
       } 
       return thunkAPI.rejectWithValue(errors);
     }
@@ -42,8 +42,8 @@ export const updateProfile = createAsyncThunk(
       return await updateProfileService(data);
     } catch (error) {
         const errors = {
-        message: error?.response?.data?.message || "something went wrong",
-        status: error?.response?.data?.status || 500,
+          message: error?.response?.data?.message || error?.message || "something went wrong",
+        status: error?.response?.data?.status || error?.status || 500,
       } 
       return thunkAPI.rejectWithValue(errors);
     }

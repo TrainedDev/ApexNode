@@ -2,7 +2,6 @@ import express from "express";
 import cors from "cors";
 import servicesProxy from "./routes/service.route.js";
 import { userSession } from "./middleware/authVerify.middleware.js";
-import { rateLimiter } from "./middleware/rateLimit.middleware.js";
 import { connectRedis } from "./config/redis.js";
 import { config } from "dotenv";
 
@@ -23,7 +22,6 @@ app.use(
 connectRedis();
 
 app.use(userSession);
-app.use(rateLimiter);
 app.use(servicesProxy);
 
 app.get("/", (req, res) => res.send("apigatway is live"));

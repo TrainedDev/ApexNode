@@ -71,7 +71,7 @@ export const handlePayment = async (
         if (res1) {
           setIsPaying(false);
           setIsSuccess(true);
-          alert
+          alert;
         } else {
           alert(
             "Payment Success , We are finalizing your order status. Please check your Order dashboard in a few minutes.",

@@ -9,13 +9,16 @@ export const createOrder = createAsyncThunk(
       return response.data;
     } catch (error) {
       // console.log(error.message, error.response, error.msg);
-      
+
       const errors = {
-      message: error?.response?.data?.message || "something went wrong",
-      status: error?.response?.data?.status || 500,
-    };
-    return thunkApi.rejectWithValue(errors);
-  }
+        message:
+          error?.response?.data?.message ||
+          error?.message ||
+          "something went wrong",
+        status: error?.response?.data?.status || error?.status || 500,
+      };
+      return thunkApi.rejectWithValue(errors);
+    }
   },
 );
 
@@ -24,15 +27,18 @@ export const fetchOrder = createAsyncThunk(
   async (_, thunkApi) => {
     try {
       const response = await fetchOrderService();
-      
+
       return response.data;
     } catch (error) {
-    const errors = {
-      message: error?.response?.data?.message || "something went wrong",
-      status: error?.response?.data?.status || 500,
-    };
-    return thunkApi.rejectWithValue(errors);
-  }
+      const errors = {
+        message:
+          error?.response?.data?.message ||
+          error?.message ||
+          "something went wrong",
+        status: error?.response?.data?.status || error?.status || 500,
+      };
+      return thunkApi.rejectWithValue(errors);
+    }
   },
 );
 
@@ -75,7 +81,7 @@ const orderSlice = createSlice({
         state.fetchOrder.loading = true;
         state.fetchOrder.error = null;
       })
-      .addCase(fetchOrder.fulfilled, (state, action) => { 
+      .addCase(fetchOrder.fulfilled, (state, action) => {
         state.fetchOrder.loading = false;
         state.fetchOrder.data = action.payload;
       })

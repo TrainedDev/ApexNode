@@ -9,8 +9,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import { useDispatch, useSelector } from "react-redux";
-import { userAuthStatus } from "../../features/auth/authSlice";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -21,8 +20,6 @@ export default function Navbar() {
   const {
     userAuthStatus: { data, loading, error: userError },
   } = useSelector((state) => state.auth);
-
-  const dispatch = useDispatch();
 
   // Check whether the page has been scrolled
   useEffect(() => {
@@ -36,11 +33,6 @@ export default function Navbar() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
-
-  // Get current authenticated user
-  useEffect(() => {
-    dispatch(userAuthStatus());
-  }, [dispatch]);
 
   if (userError) {
     console.log(userError ?? "Failed to fetch user data");
@@ -293,10 +285,7 @@ export default function Navbar() {
           SIDEBAR
       ========================== */}
       {userData && (
-        <Sidebar
-          isOpen={sidebar}
-          onClose={() => setSidebar(false)}
-        />
+        <Sidebar isOpen={sidebar} onClose={() => setSidebar(false)} />
       )}
     </header>
   );
