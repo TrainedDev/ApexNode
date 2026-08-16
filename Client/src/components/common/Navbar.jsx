@@ -9,13 +9,15 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { userAuthStatus } from "../../features/auth/authSlice";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [sidebar, setSidebar] = useState(false);
+  const dispatch = useDispatch();
 
   const {
     userAuthStatus: { data, loading, error: userError },
@@ -33,6 +35,10 @@ export default function Navbar() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+    useEffect(() => {
+      dispatch(userAuthStatus());
+    }, [dispatch]);
 
   if (userError) {
     console.log(userError ?? "Failed to fetch user data");
