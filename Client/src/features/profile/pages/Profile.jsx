@@ -42,7 +42,6 @@ const Profile = () => {
       try {
         console.log("Fetching profile on mount...");
         const res = await dispatch(fetchProfile()).unwrap();
-        console.log("Profile fetched successfully:", res);
         if (res) {
           setShowSuccess(true);
         }
