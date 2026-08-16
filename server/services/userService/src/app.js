@@ -3,7 +3,6 @@ import userRoutes from "./routes/user.routes.js";
 import { errorHandler } from "./utils/handler.utils.js";
 import { config } from "dotenv";
 import db from "./models/index.cjs";
-import cors from "cors";
 config();
 
 const app = express();

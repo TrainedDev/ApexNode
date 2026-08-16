@@ -8,6 +8,8 @@ import { useState, useMemo, useEffect } from "react";
 import { SlidersHorizontal, X, Loader2 } from "lucide-react";
 
 import { fetchProducts } from "../productSlice";
+import axios from "axios";
+import { axiosInstance } from "../../../lib/axios";
 
 const DISCOUNT_BANDS = [
   { label: "0% - 10%", min: 0, max: 10 },

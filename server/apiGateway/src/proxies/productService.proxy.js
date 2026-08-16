@@ -1,17 +1,13 @@
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { config } from "dotenv";
-import { wakeUpService } from "../middleware/serviceWakeUp.middleware.js";
 
 config();
 
 const productServiceUrl = process.env.ORDER_SERVICE;
 
-export const productServiceWake = wakeUpService("productService", `${productServiceUrl}/health`);
 
 export const productProxy = createProxyMiddleware({
   target: productServiceUrl,
-  proxyTimeout: 70000,
-  timeout: 70000,
   changeOrigin: true,
   pathRewrite: (path, req) => {
     return req.originalUrl;

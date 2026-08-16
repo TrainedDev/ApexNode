@@ -3,7 +3,6 @@ import axios from "axios";
 export const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   withCredentials: true,
-  timeout: 75000,
 });
 
 const sleep = (ms) => new Promise((res) => setTimeout(res, ms));
@@ -40,6 +39,5 @@ axiosInstance.interceptors.response.use(
     await sleep(2000);
 
     return axiosInstance(config);
-    // throw err;
   },
 );

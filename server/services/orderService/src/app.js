@@ -1,5 +1,4 @@
 import express from "express";
-// import cors from "cors";
 import cartRoute from "./routes/cart.routes.js";
 import db from "./models/index.cjs";
 import orderRoute from "./routes/order.routes.js";
