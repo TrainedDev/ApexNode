@@ -51,7 +51,7 @@ export const verifyPaymentService = async (
     removeOnFail: false,
   });
 
-  return { success: true };
+  return { success: true, razorpayOrderId: razorpay_order_id };
 };
 
 export const razorpayWebHookService = async (rawData, headers) => {

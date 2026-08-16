@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCart, removeProductFromCart, updateCart } from "../cartSlice";
 import { cartProducts } from "../../products/productSlice";
 import { Link } from "react-router-dom";
+import PageLoader from "../../auth/components/PageLoader";
 
 /* ------------------------------------------------------------- */
 /* Helpers                                                       */
@@ -34,11 +35,13 @@ const getLineTotal = (product, quantity) => {
 /* ------------------------------------------------------------- */
 
 export default function Cart() {
-  const dispatch = useDispatch();
-
   const {
-    fetchCart: { error, loading },
+    cartProducts: { loading: cartProductLoading, error: cartProductError },
+  } = useSelector((state) => state.product);
+  const {
+    fetchCart: { error, loading: fetchCartLoading },
   } = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
   // Product information fetched from product service
   const [cartItems, setCartItems] = useState([]);
@@ -71,7 +74,7 @@ export default function Cart() {
         );
 
         // console.log(latestQuantities.current);
-        
+
         // 4. Get product IDs
         const productIds = cartData.map((item) => item.productId);
 
@@ -83,8 +86,6 @@ export default function Cart() {
 
         // 6. Fetch actual product details
         const products = await dispatch(cartProducts({ productIds })).unwrap();
-
-        console.log("Cart products:", products);
 
         // 7. Store product details
         setCartItems(products);
@@ -114,7 +115,7 @@ export default function Cart() {
 
     const currentCartProductQuantity = latestQuantities.current[productId] ?? 1;
 
-    const stock = product?.stock
+    const stock = product?.stock;
 
     // Don't allow quantity update if product has no stock
     if (stock <= 0) {
@@ -123,20 +124,15 @@ export default function Cart() {
       return;
     }
 
-    const newQuantity = Math.min(stock, Math.max(1, currentCartProductQuantity + delta));
+    const newQuantity = Math.min(
+      stock,
+      Math.max(1, currentCartProductQuantity + delta),
+    );
 
     if (newQuantity > 3) {
       alert("max 3 product can be ordered");
       return;
-    };
-
-    // console.log({
-    //   productId,
-    //   currentQuantity,
-    //   delta,
-    //   stock,
-    //   newQuantity,
-    // });
+    }
 
     latestQuantities.current[productId] = newQuantity;
 
@@ -204,7 +200,9 @@ export default function Cart() {
         return sum;
       }
 
-      return sum + product.discountPercentage.$numberDecimal * cartItem.quantity;
+      return (
+        sum + product.discountPercentage.$numberDecimal * cartItem.quantity
+      );
     }, 0);
   }, [quantities, cartItems]);
 
@@ -216,15 +214,11 @@ export default function Cart() {
   /* Loading / Error                                             */
   /* ----------------------------------------------------------- */
 
-  if (loading && cartItems.length === 0) {
-    return (
-      <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center">
-        <p className="text-sm font-medium text-gray-500">Loading cart...</p>
-      </div>
-    );
+  if (fetchCartLoading && cartItems.length === 0 || cartProductLoading) {
+    return <PageLoader />;
   }
 
-  if (error) {
+  if (error || cartProductError) {
     return (
       <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center">
         <p className="text-sm font-medium text-red-500">Failed to load cart.</p>
@@ -415,7 +409,7 @@ export default function Cart() {
             </div>
 
             <Link
-            to={"/checkout"}
+              to={"/checkout"}
               className="w-full mt-5 flex items-center justify-center gap-2 text-sm font-semibold text-white bg-[#2563eb] rounded-xl py-3 shadow-sm hover:bg-blue-700 hover:shadow-md transition-all duration-300"
             >
               Proceed to Checkout

@@ -27,11 +27,6 @@ export default function Checkout() {
     error: { fetchProfileErr },
   } = useSelector((state) => state.profile);
 
-  //order selector
-  const {
-    createOrder: { data: orderData, error: orderError, loading: orderLoading },
-  } = useSelector((state) => state.order);
-
   //product selector
   const {
     fetchProduct: { loading: singleItemLoading, error: singleItemError },
@@ -176,6 +171,7 @@ export default function Checkout() {
     (acc, ele) => acc + ele.discountPercentage.$numberDecimal * ele.qty,
     0,
   );
+
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">

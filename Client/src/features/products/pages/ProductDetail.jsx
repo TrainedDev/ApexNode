@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchProduct } from "../productSlice";
 import { Link, useParams } from "react-router-dom";
 import { createCart } from "../../cart/cartSlice";
-
+import PageLoader from "../../auth/components/PageLoader";
 
 function Rating({ value, size = "w-4 h-4" }) {
   return (
@@ -63,7 +63,7 @@ export default function ProductDetail() {
   }, [dispatch, id]);
 
   if (loading) {
-    return <div>loading...</div>;
+    return <PageLoader />;
   }
 
   if (error) {
@@ -80,7 +80,7 @@ export default function ProductDetail() {
     const inStock = PRODUCT.stock > 0;
 
     const handleAddToCart = async () => {
-      try {       
+      try {
         const res = await dispatch(createCart(id)).unwrap();
         setAddedToast({
           success: true,
@@ -88,7 +88,7 @@ export default function ProductDetail() {
         });
       } catch (err) {
         console.log(err);
-        
+
         setAddedToast({
           success: false,
           msg: err.error || err.message || "failed to add product in cart",
@@ -265,7 +265,8 @@ export default function ProductDetail() {
                     )}
                     Add to Cart
                   </button>
-                  <Link to={`/checkout/${PRODUCT._id}`}
+                  <Link
+                    to={`/checkout/${PRODUCT._id}`}
                     disabled={!inStock}
                     className={`flex-1 text-sm flex items-center justify-center font-semibold rounded-xl py-3 shadow-sm transition-all duration-300 ${
                       inStock

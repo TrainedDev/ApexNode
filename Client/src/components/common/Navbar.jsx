@@ -36,9 +36,9 @@ export default function Navbar() {
     };
   }, []);
 
-    useEffect(() => {
-      dispatch(userAuthStatus());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(userAuthStatus());
+  }, [dispatch]);
 
   if (userError) {
     console.log(userError ?? "Failed to fetch user data");
@@ -114,9 +114,12 @@ export default function Navbar() {
               <Loader2 className="w-5 h-5 animate-spin text-[#2563eb]" />
             ) : userData ? (
               <>
-                <div className="flex items-center justify-center">
-                  <span className="font-semibold text-gray-900">
-                    {userData?.username?.toUpperCase()}
+                <div className="flex w-50 items-center justify-center">
+                  <span className=" flex gap-3">
+                    Welcome{" "}
+                    <p className="font-semibold text-gray-900">
+                      {userData?.username?.toUpperCase()}
+                    </p>
                   </span>
                 </div>
 
