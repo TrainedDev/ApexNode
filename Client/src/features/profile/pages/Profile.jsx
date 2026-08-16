@@ -40,7 +40,6 @@ const Profile = () => {
   useEffect(() => {
     const userProfile = async () => {
       try {
-        console.log("Fetching profile on mount...");
         const res = await dispatch(fetchProfile()).unwrap();
         if (res) {
           setShowSuccess(true);

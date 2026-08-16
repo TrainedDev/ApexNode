@@ -12,7 +12,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { createProfile, updateProfile } from "../profileSlice";
-import { useNavigate } from "react-router-dom";
 
 function FormField({
   label,
@@ -45,7 +44,6 @@ function FormField({
 
 export default function ProfileForm({
   mode = "create",
-  user,
   values = {
     fullName: "",
     phoneNumber: "",
@@ -57,12 +55,10 @@ export default function ProfileForm({
   },
 }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const {
     loading,
     error: { createProfileErr, updateProfileErr },
   } = useSelector((state) => state.profile);
-  console.log(user);
 
   const isCreate = mode === "create";
 
@@ -70,11 +66,9 @@ export default function ProfileForm({
     defaultValues: values,
   });
 
-  console.log(mode, isCreate);
 
   const onSubmit = async (data) => {
     try {
-      console.log(data.phoneNumber);
 
       if (isCreate) {
         await dispatch(createProfile(data)).unwrap();
