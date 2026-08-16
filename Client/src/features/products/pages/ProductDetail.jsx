@@ -167,7 +167,7 @@ export default function ProductDetail() {
                 {discountPercentage > 0 && (
                   <>
                     <span className="text-base font-medium text-gray-400 line-through">
-                      ${originalPrice}
+                      ₹{originalPrice}
                     </span>
                     <span className="text-xs font-bold px-2.5 py-1 rounded-full bg-[#2563eb]/10 text-[#2563eb]">
                       {discountPercentage.toFixed(0)}% OFF
