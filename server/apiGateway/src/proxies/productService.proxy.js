@@ -3,11 +3,8 @@ import { config } from "dotenv";
 
 config();
 
-const productServiceUrl = process.env.ORDER_SERVICE;
-
-
 export const productProxy = createProxyMiddleware({
-  target: productServiceUrl,
+  target: process.env.PRODUCT_SERVICE,
   changeOrigin: true,
   pathRewrite: (path, req) => {
     return req.originalUrl;

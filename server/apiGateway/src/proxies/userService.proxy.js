@@ -18,11 +18,8 @@ async function destroyGatewaySession(req, res) {
   res.clearCookie("session-id", { path: "/" });
 }
 
-
-const userServiceUrl = process.env.ORDER_SERVICE;
-
 export const userProxy = createProxyMiddleware({
-  target: userServiceUrl,
+  target: process.env.USER_SERVICE,
   changeOrigin: true,
   selfHandleResponse: true,
   pathRewrite: (path, req) => {

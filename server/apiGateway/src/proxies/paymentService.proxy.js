@@ -3,11 +3,8 @@ import { config } from "dotenv";
 
 config();
 
-const paymentServiceUrl = process.env.ORDER_SERVICE;
-
-
 export const paymentProxy = createProxyMiddleware({
-  target: paymentServiceUrl,
+  target: process.env.PAYMENT_SERVICE,
   changeOrigin: true,
   pathRewrite: (path, req) => {
     return req.originalUrl;
