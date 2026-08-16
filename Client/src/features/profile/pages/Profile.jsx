@@ -29,10 +29,10 @@ const Profile = () => {
       if (
         err?.status === 400 ||
         err?.message === "No profile found. Create yours today"
-      ){
-        navigate("/create-profile")
+      ) {
+        navigate("/create-profile");
       }
-        console.error(err);
+      console.error(err);
     }
   };
 
@@ -45,6 +45,7 @@ const Profile = () => {
           setShowSuccess(true);
         }
       } catch (error) {
+        setShowSuccess(false);
         console.log("Failed to fetch profile:", error);
       }
     };
@@ -59,17 +60,17 @@ const Profile = () => {
       <ProfileErrorState onRetry={handleRetry} errorMsg={fetchProfileErr} />
     );
 
-    if(user)
-  return (
-    <div className="min-h-screen bg-slate-50"> 
-      <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-        <h1 className="mb-6 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-          User Profile
-        </h1>
+  if (user)
+    return (
+      <div className="min-h-screen bg-slate-50">
+        <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
+          <h1 className="mb-6 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
+            User Profile
+          </h1>
 
-        {showSuccess && <SuccessBanner className="mb-6" />}
+          {showSuccess && <SuccessBanner className="mb-6" />}
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[320px_1fr]">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[320px_1fr]">
             <ProfileCard
               fullName={user.fullName}
               phone={user.phone}
@@ -77,11 +78,15 @@ const Profile = () => {
               country={user.country}
             />
 
-          <ProfileForm mode={user ? "edit" : "create"}user={user} values={user} />
+            <ProfileForm
+              mode={user ? "edit" : "create"}
+              user={user}
+              values={user}
+            />
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
 };
 
 export default Profile;

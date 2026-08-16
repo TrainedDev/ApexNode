@@ -1,6 +1,6 @@
 import { CheckCircle2 } from 'lucide-react'
 
-export default function SuccessBanner({ message = 'Profile updated successfully.', className = '' }) {
+export default function SuccessBanner({ message = 'Profile fetched successfully.', className = '' }) {
   return (
     <div
       className={`flex items-center gap-3 rounded-2xl border border-emerald-100 bg-emerald-50 px-5 py-4 text-sm font-medium text-emerald-700 shadow-sm animate-fade-in ${className}`}
