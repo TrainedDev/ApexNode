@@ -3,6 +3,7 @@ import {
   responseInterceptor,
 } from "http-proxy-middleware";
 import { config } from "dotenv";
+import { retrySleepService } from "../middleware/retrySleepService.middleware.js";
 
 config();
 
@@ -28,7 +29,7 @@ export const userProxy = createProxyMiddleware({
   on: {
     proxyReq: (proxyReq, req, res) => {
       if (req.session?.userId) {
-        proxyReq.setHeader("x-user-id", req.session.userId);
+        proxyReq.setHeader("x-user-id",  req.session.userId);
       }
     },
     proxyRes: responseInterceptor(
@@ -65,13 +66,41 @@ export const userProxy = createProxyMiddleware({
         }
       },
     ),
-    error: (err, req, res, target) => {
-      console.error(`Failed to reach product service ${target}:`, err.message);
-
-      if (!res.headersSent) {
-        res.status(503).json({
-          message: "Product service is waking up. Please try again shortly.",
+    error: async (err, req, res) => {
+      console.error("User proxy failed:", err.message);
+      if (res.headersSent || res.destroyed) return;
+      try {
+        // 1. Wait for User Service to become healthy
+        const healthy = await retrySleepService(USER_SERVICE);
+        if (!healthy) {
+          return res
+            .status(503)
+            .json({ message: "User Service is temporarily unavailable." });
+        }
+        // 2. Only automatically retry GET requests
+        if (req.method !== "GET") {
+          return res
+            .status(503)
+            .json({ message: "Service is awake. Please retry your request." });
+        }
+        // 3. Retry the original GET request
+        const response = await axios.get(`${User_SERVICE}${req.originalUrl}`, {
+          headers: {
+            ...(req.session?.userId && { "x-user-id": req.session.userId }),
+          },
+          timeout: 15000,
         });
+        // // 4. Return the downstream response
+        if (!res.headersSent && !res.destroyed) {
+          return res.status(response.status).send(response.data);
+        }
+      } catch (retryError) {
+        console.error("User retry failed:", retryError.message);
+        if (!res.headersSent && !res.destroyed) {
+          return res
+            .status(503)
+            .json({ message: "User Service is temporarily unavailable." });
+        }
       }
     },
   },
